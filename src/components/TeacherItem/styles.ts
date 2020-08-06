@@ -59,7 +59,7 @@ export const Container = styled.article`
       }
     }
 
-    button {
+    a {
       display: flex;
       align-items: center;
       justify-content: space-evenly;
@@ -70,6 +70,7 @@ export const Container = styled.article`
       background-color: var(--color-secundary);
       color: var(--color-button-text);
       font: 700 1.4rem Archivo;
+      text-decoration: none;
       cursor: pointer;
 
       transition: 0.2s;

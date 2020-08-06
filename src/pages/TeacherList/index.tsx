@@ -1,58 +1,89 @@
-import React from "react";
+import React, { useState, FormEvent } from "react";
 
 import PageHeader from "../../components/PageHeader";
-import TeacherItem from "../../components/TeacherItem";
+import TeacherItem, { Teacher } from "../../components/TeacherItem";
+import Input from "../../components/Input";
+import Select from "../../components/Select";
+
+import api from "../../services/api";
 
 import { PageTeacherList, SearchTeacher, Main } from "./styles";
 
 const TeacherList: React.FC = () => {
+  const [state, setState] = useState([]);
+
+  const [subject, setSubject] = useState("");
+  const [week_day, setWeekDay] = useState("");
+  const [time, setTime] = useState("");
+
+  async function handleSearchTeacher(e: FormEvent) {
+    e.preventDefault();
+    const classesFinded = await api.get("/classes", {
+      params: { subject, week_day, time },
+    });
+
+    if (classesFinded) {
+      setState(classesFinded.data);
+    }
+
+    console.log(classesFinded.data);
+  }
+
   return (
     <PageTeacherList>
       <PageHeader title="Esses são os proffys disponíveis">
-        <SearchTeacher action="/">
-          <div className="input-block">
-            <label htmlFor="subject">Matéria</label>
-            <input type="text" id="subject" />
-          </div>
-          <div className="input-block">
-            <label htmlFor="week_day">Dia da Semana</label>
-            <input type="text" id="week_day" />
-          </div>
-          <div className="input-block">
-            <label htmlFor="time">Hora</label>
-            <input type="text" id="time" />
-          </div>
+        <SearchTeacher onSubmit={handleSearchTeacher}>
+          <Select
+            label="Matéria"
+            name="subject"
+            value={subject}
+            onChange={(e) => {
+              setSubject(e.target.value);
+            }}
+            options={[
+              { value: "Artes", label: "Artes" },
+              { value: "Matemática", label: "Matemática" },
+              { value: "Português", label: "Português" },
+              { value: "História", label: "História" },
+              { value: "Geografia", label: "Geografia" },
+            ]}
+          />
+
+          <Select
+            label="Dia da semana"
+            name="week_day"
+            value={week_day}
+            onChange={(e) => {
+              setWeekDay(e.target.value);
+            }}
+            options={[
+              { value: "0", label: "Domingo" },
+              { value: "1", label: "Segunda-feira" },
+              { value: "2", label: "Terça-feira" },
+              { value: "3", label: "Quarta-feira" },
+              { value: "4", label: "Quinta-feira" },
+              { value: "5", label: "Sexta-feira" },
+              { value: "6", label: "Sábado" },
+            ]}
+          />
+
+          <Input
+            label="Hora"
+            name="time"
+            type="time"
+            value={time}
+            onChange={(e) => {
+              setTime(e.target.value);
+            }}
+          />
+          <button type="submit">Buscar</button>
         </SearchTeacher>
       </PageHeader>
       <Main>
-        <TeacherItem
-          avatar="https://avatars1.githubusercontent.com/u/58452911?s=460&u=900f60af82e1b47abdf910d0e005f1d53be257d3&v=4"
-          name="Isaac Alencar"
-          subject="Defesa contra as artes das Trevas"
-          price="1.250,00"
-          detail="Eu posso ensinar a enfeitiçar a mente e confundir os sentidos. Eu posso ensinar como engarrafar a fama e cozinhar a glória, e até pôr um fim na morte."
-        />
-        <TeacherItem
-          avatar="https://avatars1.githubusercontent.com/u/58452911?s=460&u=900f60af82e1b47abdf910d0e005f1d53be257d3&v=4"
-          name="Isaac Alencar"
-          subject="Defesa contra as artes das Trevas"
-          price="1.250,00"
-          detail="Eu posso ensinar a enfeitiçar a mente e confundir os sentidos. Eu posso ensinar como engarrafar a fama e cozinhar a glória, e até pôr um fim na morte."
-        />
-        <TeacherItem
-          avatar="https://avatars1.githubusercontent.com/u/58452911?s=460&u=900f60af82e1b47abdf910d0e005f1d53be257d3&v=4"
-          name="Isaac Alencar"
-          subject="Defesa contra as artes das Trevas"
-          price="1.250,00"
-          detail="Eu posso ensinar a enfeitiçar a mente e confundir os sentidos. Eu posso ensinar como engarrafar a fama e cozinhar a glória, e até pôr um fim na morte."
-        />
-        <TeacherItem
-          avatar="https://avatars1.githubusercontent.com/u/58452911?s=460&u=900f60af82e1b47abdf910d0e005f1d53be257d3&v=4"
-          name="Isaac Alencar"
-          subject="Defesa contra as artes das Trevas"
-          price="1.250,00"
-          detail="Eu posso ensinar a enfeitiçar a mente e confundir os sentidos. Eu posso ensinar como engarrafar a fama e cozinhar a glória, e até pôr um fim na morte."
-        />
+        {state &&
+          state.map((teacher: Teacher) => {
+            return <TeacherItem key={teacher.id} data={teacher} />;
+          })}
       </Main>
     </PageTeacherList>
   );

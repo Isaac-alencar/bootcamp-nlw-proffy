@@ -11,48 +11,29 @@ export const PageTeacherList = styled.div`
 
 export const SearchTeacher = styled.form`
   margin-top: 3.2rem;
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3.2rem;
+    width: 100%;
+    height: 5.6rem;
+    border: none;
+    border-radius: 0.8rem;
+    background-color: var(--color-secundary);
+    color: var(--color-button-text);
+    font: 700 1.6rem Archivo;
+    text-decoration: none;
+    cursor: pointer;
 
-  .input-block {
-    position: relative;
-    label {
-      font-size: 1.4rem;
-    }
-    input {
-      width: 100%;
-      height: 5.6rem;
-      margin-top: 0.8rem;
-      border: 1px solid var(--color-line-in-white);
-      border-radius: 0.8rem;
-      background-color: var(--color-input-background);
-      padding: 0 1.6rem;
-      font: 1.6rem Archivo;
-    }
-    & + .input-block {
-      margin-top: 1.4rem;
-      @media (min-width: 700px) {
-        margin-top: 0rem;
-      }
-    }
-    &:focus-within:after {
-      position: absolute;
-      left: 1.6rem;
-      right: 1.6rem;
-      bottom: 0;
-
-      width: calc(100% - 3.2rem);
-      height: 2px;
-
-      content: "";
-      background-color: var(--color-primary-light);
+    transition: background-color 0.2s;
+    &:hover {
+      background-color: var(--color-secundary-dark);
     }
   }
-  label {
-    color: var(--color-text-in-primary);
-  }
-
   @media (min-width: 700px) {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     column-gap: 16px;
     position: absolute;
     bottom: -28px;

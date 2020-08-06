@@ -1,38 +1,56 @@
 import React from "react";
 
+import api from "../../services/api";
+
 import whatsappIcon from "../../assets/icons/whatsapp.svg";
 
 import { Container } from "./styles";
 
-interface TeacherItemProps {
+export interface Teacher {
+  id: number;
   avatar: string;
-  subject: string;
+  bio: string;
+  cost: number;
   name: string;
-  price: string;
-  detail: string;
+  subject: string;
+  whatsapp: string;
 }
 
-const TeacherItem: React.FC<TeacherItemProps> = (props) => {
+interface TeacherItemProps {
+  data: Teacher;
+}
+
+const TeacherItem: React.FC<TeacherItemProps> = ({ data }) => {
+  async function createNewConnection() {
+    api.post("connections", {
+      user_id: data.id,
+    });
+  }
   return (
     <Container>
       <header>
-        <img src={props.avatar} alt="Avatar" />
+        <img src={data.avatar} alt="Avatar" />
         <div>
-          <strong>{props.name}</strong>
-          <span>{props.subject}</span>
+          <strong>{data.name}</strong>
+          <span>{data.subject}</span>
         </div>
       </header>
-      <p>{props.detail}</p>
+      <p>{data.bio}</p>
 
       <footer>
         <p>
           Preço/hora
-          <strong>R$ {props.price}</strong>
+          <strong>R$ {data.cost}</strong>
         </p>
-        <button type="button">
+        <a
+          rel="noopener noreferrer"
+          target="_blank"
+          href={`https://wa.me/55${data.whatsapp}`}
+          onClick={createNewConnection}
+        >
           <img src={whatsappIcon} alt="Whatsapp" />
           Enrtar em contato
-        </button>
+        </a>
       </footer>
     </Container>
   );
