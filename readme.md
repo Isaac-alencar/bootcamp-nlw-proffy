@@ -1,6 +1,6 @@
-# Bootcamp Next Level Week
+<h1 align="center">Bootcamp Next Level Week</h1>
 
-**O bootcamp que promete te levar ao próximo nível(em uma semana).**
+<strong align="center">O bootcamp que promete te levar ao próximo nível (em uma semana).</strong>
 
 ![logo nlw](https://pwa-commerce-uploads-image.s3.us-east-2.amazonaws.com/1+-+NLW+%2302+-+1400x900.jpg)
 
